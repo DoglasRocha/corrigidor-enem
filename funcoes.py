@@ -52,7 +52,7 @@ def pega_equacao_linha_meio(equacao_linha_baixo: Callable, imagem_pb: cv2.Mat) -
             if (imagem_pb[y2][j] == 0):
                 pos_colunas_dir[i] = j
                 y2 = y2 - 300
-                break
+                break 
             
     # colunas da linha do meio serao a media das colunas da direita e da esquerda
     pos_colunas = [(pos_colunas_dir[i] + pos_colunas_esq[i]) / 2 for i in range(2)]
