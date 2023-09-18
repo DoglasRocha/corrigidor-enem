@@ -39,7 +39,7 @@ for i in range(dim_imagem[1]):
 media = round(media)
 
 # traça linha suposta para coluna de opcoes a de 1 a 15
-PROPORCAO = 483 / 457
+PROPORCAO = 1.0579888265494013
 pt1 = (round(funcao_linha_meio(0) - media * PROPORCAO), 0)
 pt2 = (round(funcao_linha_meio(dim_imagem[0] - 1) - media * PROPORCAO), dim_imagem[0] - 1)
 cv2.line(imagem_original, pt1, pt2, (0, 255, 255), 2)

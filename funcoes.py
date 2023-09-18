@@ -18,13 +18,13 @@ def pega_equacao_linha_de_baixo(imagem_pb: cv2.Mat) -> Callable:
     
     tam_y, tam_x = imagem_pb.shape
     pos_colunas = [
-        tam_x // 3, 
-        tam_x * 2 // 3
+        100, 
+        tam_x - 200
     ]
     pos_linhas = [-1, -1]
     
     for i in range(len(pos_colunas)):
-        for j in range(tam_y - 10, 0, -1):
+        for j in range(tam_y - 25, 0, -1):
             if (imagem_pb[j][pos_colunas[i]] == 0):
                 pos_linhas[i] = j
                 break
@@ -100,8 +100,8 @@ def pega_equacao_linha_cima(equacao_linha_baixo: Callable, equacao_linha_meio: C
     
     '''for point in points_DEBUG:
         cv2.circle(imagem_pb, point, 5, (0,0,0), 5)'''
-    cv2.imshow("a", imagem_pb[600:])
-    cv2.waitKey(0)
+    # cv2.imshow("a", imagem_pb[600:])
+    # cv2.waitKey(0)
                 
     return faz_equacao_da_reta_para_x(pos_linhas, pos_colunas)
     
