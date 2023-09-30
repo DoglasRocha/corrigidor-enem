@@ -48,5 +48,5 @@ pt1 = (round(funcao_linha_meio(y_min) - media * PROPORCAO), y_min)
 pt2 = (round(funcao_linha_meio(y_max) - media * PROPORCAO), y_max)
 cv2.line(imagem_original, pt1, pt2, (0, 255, 255), 1)
 
-cv2.imshow("0", imagem_original[600:])
+cv2.imshow("0", imagem_original[900:])
 cv2.waitKey(0)
