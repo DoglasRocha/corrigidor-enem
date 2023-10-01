@@ -10,9 +10,9 @@ if (len(argv) != 3):
 
 imagem_original = abre_imagem(argv[1])
 imagem_pb = deixa_imagem_preto_e_branco(imagem_original)
-funcao_linha_baixo = pega_equacao_linha_de_baixo(imagem_pb)
-funcao_linha_meio = pega_equacao_linha_meio(funcao_linha_baixo, imagem_pb)
-funcao_linha_cima = pega_equacao_linha_cima(funcao_linha_baixo, funcao_linha_meio, imagem_pb)
+funcao_linha_baixo = pega_funcao_linha_de_baixo(imagem_pb)
+funcao_linha_meio = pega_funcao_linha_meio(funcao_linha_baixo, imagem_pb)
+funcao_linha_cima = pega_funcao_linha_cima(funcao_linha_baixo, funcao_linha_meio, imagem_pb)
 
 # pega pontos iniciais e finais da linha de baixo - DEBUG
 dim_imagem = imagem_pb.shape
@@ -22,8 +22,8 @@ pt2 = (dim_imagem[1] - 1, funcao_linha_baixo(dim_imagem[1] - 1))
 cv2.line(imagem_original, pt1, pt2, (0, 0, 255), 1)
 
 # traça linha encima da linha do meio - DEBUG
-pt1 = (funcao_linha_meio(0), 0)
-pt2 = (funcao_linha_meio(dim_imagem[0] - 1), dim_imagem[0] - 1)
+pt1 = (int(funcao_linha_meio(0)), 0)
+pt2 = (int(funcao_linha_meio(dim_imagem[0] - 1)), dim_imagem[0] - 1)
 cv2.line(imagem_original, pt1, pt2, (0, 255, 0), 1)
 
 # traça linha encima da linha de cima - DEBUG
@@ -48,5 +48,7 @@ pt1 = (round(funcao_linha_meio(y_min) - media * PROPORCAO), y_min)
 pt2 = (round(funcao_linha_meio(y_max) - media * PROPORCAO), y_max)
 cv2.line(imagem_original, pt1, pt2, (0, 255, 255), 1)
 
+cv2.imshow("0", imagem_pb[900:])
+cv2.waitKey(0)
 cv2.imshow("0", imagem_original[900:])
 cv2.waitKey(0)
