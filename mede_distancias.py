@@ -12,6 +12,8 @@ if (len(argv) != 2):
 if not os.path.exists(argv[1]):
     print("Diretório não existente!!")
     exit(1)
+
+medias = []
     
 for image_path in sorted(os.listdir(argv[1])):
 
@@ -40,9 +42,15 @@ for image_path in sorted(os.listdir(argv[1])):
     cv2.line(imagem_original, pt1, pt2, (255, 0, 0), 2)
 
     # determina distancia media entre linhas gabarito
-    media = 0
-    for i in range(dim_imagem[1]):
-        media += (funcao_linha_baixo(i) - funcao_linha_cima(i)) / dim_imagem[1]
+    media = 0 
+    media = (
+        (funcao_linha_baixo(0) - funcao_linha_cima(0)) +
+        (funcao_linha_baixo(dim_imagem[1] - 1) - funcao_linha_cima(dim_imagem[1] - 1))
+    ) / 2
     media = round(media)
+    medias.append(media)
     
     print("Nome arquivo: {}, média da distância: {}".format(image_path, media))
+    
+medias = list(filter(lambda x : x > 500, medias))
+print(f'Valor máximo: {max(medias)}, valor mínimo: {min(medias)}')

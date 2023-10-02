@@ -1,3 +1,5 @@
+''' engroossar linhas '''
+
 import cv2
 from sys import argv
 from imagem import *
