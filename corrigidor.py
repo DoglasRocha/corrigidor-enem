@@ -95,9 +95,8 @@ cv2.line(imagem_original, pt1, pt2, (255, 255, 0), 2)
 
 # teste se proporcoes entre linhas e colunas funcionam
 PROPORCAO_ENTRE_ALTERNATIVAS_X = 0.04634581105169341
-PROPORCAO_ENTRE_ALTERNATIVAS_Y = 0.0570409982174688
+PROPORCAO_ENTRE_ALTERNATIVAS_Y = 0.05614973262032086
 # traça linha suposta para coluna de opcoes b de 1 a 15
-PROPORCAO_1_A_15 = -0.8413547237076648
 pt1 = (
     round(
         funcao_linha_meio(y_min)
@@ -117,13 +116,12 @@ pt2 = (
 cv2.line(imagem_original, pt1, pt2, (75, 255, 150), 2)
 
 # traça linha suposta para linha contendo questoes {2,17,32,47,62,77}
-PROPORCAO_PRIMEIRA_LINHA = 0.14616755793226383
 pt1 = (
     0,
     round(
         funcao_linha_cima(0)
         + media * PROPORCAO_PRIMEIRA_LINHA
-        + media * PROPORCAO_ENTRE_ALTERNATIVAS_Y
+        + 1 * media * PROPORCAO_ENTRE_ALTERNATIVAS_Y
     ),
 )
 pt2 = (
@@ -131,7 +129,7 @@ pt2 = (
     round(
         funcao_linha_cima(dim_imagem[1] - 1)
         + media * PROPORCAO_PRIMEIRA_LINHA
-        + media * PROPORCAO_ENTRE_ALTERNATIVAS_Y
+        + 1 * media * PROPORCAO_ENTRE_ALTERNATIVAS_Y
     ),
 )
 cv2.line(imagem_original, pt1, pt2, (175, 255, 0), 2)
