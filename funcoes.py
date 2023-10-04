@@ -117,3 +117,62 @@ def calcula_distancia_media_entre_linha_cima_e_baixo(
         )
         / 2
     )
+
+
+def acha_interseccao_entre_linhas(
+    funcao_linha_x: Callable, funcao_linha_y: Callable, tam_x_img: int, tam_y_img: int
+) -> tuple[int, int]:
+    for x in range(0, tam_x_img - 1):
+        for y in range(0, tam_y_img - 1):
+            result = (x, funcao_linha_x(x))
+            if result == (funcao_linha_y(y), y):
+                return result
+
+    return (-1, -1)
+
+
+def devolve_posicao_ponto_para_questao(
+    questao: int, interseccao_linhas: tuple, media: int
+) -> tuple:
+    PROPORCOES_X = [
+        -0.8413547237076648,  # PROPORCAO_1_A_15
+        -0.5365418894830659,  # PROPORCAO_16_A_30
+        -0.2281639928698752,  # PROPORCAO_31_A_45
+        0.09803921568627451,  # PROPORCAO_46_A_60
+        0.40641711229946526,  # PROPORCAO_61_A_75
+        0.7165775401069518,  # PROPORCAO_76_A_90
+    ]
+    PROPORCAO_PRIMEIRA_LINHA = 0.14616755793226383
+    PROPORCAO_ENTRE_ALTERNATIVAS_Y = 0.05614973262032086
+
+    pos_x_questao = (questao - 1) // 15
+    pos_y_questao = (questao - 1) % 15
+
+    proporcao_x = PROPORCOES_X[pos_x_questao]
+    return (
+        round(interseccao_linhas[0] + media * proporcao_x),
+        round(
+            interseccao_linhas[1]
+            + media * PROPORCAO_PRIMEIRA_LINHA
+            + media * pos_y_questao * PROPORCAO_ENTRE_ALTERNATIVAS_Y
+        ),
+    )
+
+
+def devolve_alternativa_marcada(
+    ponto_alternativa_a: tuple, img_pb: cv2.Mat, media: int
+) -> tuple[str, tuple[int, int]]:
+    alternativas = "abcde"
+    PROPORCAO_ENTRE_ALTERNATIVAS_X = 0.04634581105169341
+    for i in range(len(alternativas)):
+        x = round(ponto_alternativa_a[0] + media * PROPORCAO_ENTRE_ALTERNATIVAS_X * i)
+        y = ponto_alternativa_a[1]
+        if img_pb[y][x] == 0 and (
+            img_pb[y + 5][x] == 0
+            or img_pb[y - 5][x] == 0
+            or img_pb[y][x + 5] == 0
+            or img_pb[y][x - 5] == 0
+        ):
+            return alternativas[i], (x, y)
+
+    return "não detectada", (-1, -1)
