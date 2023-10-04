@@ -61,5 +61,5 @@ for i in range(90):
     print(f"Questão {i+1}: {alternativas_marcadas[i]}")
     cv2.circle(imagem_original, pontos_alternativas[i], 5, (255, 0, 0), 5)
 
-# cv2.imshow("0", imagem_original[900:])
-# cv2.waitKey(0)
+cv2.imshow("0", imagem_original[900:])
+cv2.waitKey(0)

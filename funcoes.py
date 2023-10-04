@@ -163,16 +163,23 @@ def devolve_alternativa_marcada(
     ponto_alternativa_a: tuple, img_pb: cv2.Mat, media: int
 ) -> tuple[str, tuple[int, int]]:
     alternativas = "abcde"
+    ponto_encontrado = ()
+    alternativa_encontrada = ""
     PROPORCAO_ENTRE_ALTERNATIVAS_X = 0.04634581105169341
     for i in range(len(alternativas)):
         x = round(ponto_alternativa_a[0] + media * PROPORCAO_ENTRE_ALTERNATIVAS_X * i)
         y = ponto_alternativa_a[1]
-        if img_pb[y][x] == 0 and (
+        if img_pb[y][x] == 0 or (
             img_pb[y + 5][x] == 0
             or img_pb[y - 5][x] == 0
             or img_pb[y][x + 5] == 0
             or img_pb[y][x - 5] == 0
         ):
-            return alternativas[i], (x, y)
+            alternativa_encontrada += alternativas[i]
+            ponto_encontrado = (x, y)
 
-    return "não detectada", (-1, -1)
+    return (
+        ("não detectada", (-1, -1))
+        if len(alternativa_encontrada) != 1
+        else (alternativa_encontrada, ponto_encontrado)
+    )
