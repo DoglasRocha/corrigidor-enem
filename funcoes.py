@@ -132,7 +132,10 @@ def acha_interseccao_entre_linhas(
 
 
 def devolve_posicao_ponto_para_questao(
-    questao: int, interseccao_linhas: tuple, media: int
+    questao: int,
+    interseccao_linhas: tuple,
+    media: int,
+    funcao_linha_cima: Callable = None,
 ) -> tuple:
     PROPORCOES_X = [
         -0.8413547237076648,  # PROPORCAO_1_A_15
@@ -149,13 +152,23 @@ def devolve_posicao_ponto_para_questao(
     pos_y_questao = (questao - 1) % 15
 
     proporcao_x = PROPORCOES_X[pos_x_questao]
-    return (
-        round(interseccao_linhas[0] + media * proporcao_x),
-        round(
+    x = interseccao_linhas[0] + media * proporcao_x
+    y = None
+    if funcao_linha_cima:
+        y = (
+            funcao_linha_cima(x)
+            + media * PROPORCAO_PRIMEIRA_LINHA
+            + media * pos_y_questao * PROPORCAO_ENTRE_ALTERNATIVAS_Y
+        )
+    else:
+        y = (
             interseccao_linhas[1]
             + media * PROPORCAO_PRIMEIRA_LINHA
             + media * pos_y_questao * PROPORCAO_ENTRE_ALTERNATIVAS_Y
-        ),
+        )
+    return (
+        round(x),
+        round(y),
     )
 
 
@@ -169,7 +182,7 @@ def devolve_alternativa_marcada(
     for i in range(len(alternativas)):
         x = round(ponto_alternativa_a[0] + media * PROPORCAO_ENTRE_ALTERNATIVAS_X * i)
         y = ponto_alternativa_a[1]
-        if img_pb[y][x] == 0 or (
+        if img_pb[y][x] == 0 and (
             img_pb[y + 5][x] == 0
             or img_pb[y - 5][x] == 0
             or img_pb[y][x + 5] == 0
@@ -177,6 +190,8 @@ def devolve_alternativa_marcada(
         ):
             alternativa_encontrada += alternativas[i]
             ponto_encontrado = (x, y)
+            cv2.circle(img_pb, (x, y), 2, (255, 255, 255))
+            cv2.circle(img_pb, (x, y), 4, (0, 0, 0))
 
     return (
         ("não detectada", (-1, -1))

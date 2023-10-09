@@ -1,8 +1,7 @@
-""" engroossar linhas """
-
 import cv2
 from sys import argv
 from imagem import *
+import os
 from funcoes import *
 import numpy as np
 
@@ -11,6 +10,9 @@ if len(argv) != 3:
     print(
         "Uso incorreto! Uso correto: python corrigidor.py imagem_de_entrada.jpeg diretorio_destino"
     )
+
+assert os.path.isfile(argv[1]), "Imagem de entrada passada incorretamente"
+assert os.path.isdir(argv[2]), "Diretório de destino passado incorretamente"
 
 imagem_original = abre_imagem(argv[1])
 imagem_pb = deixa_imagem_preto_e_branco(imagem_original)
@@ -47,19 +49,26 @@ media = calcula_distancia_media_entre_linha_cima_e_baixo(
     funcao_linha_baixo, funcao_linha_cima, dim_imagem[1]
 )
 
+# encontra ponto para questões e encontra a alternativa marcada
 alternativas_marcadas = []
 pontos_alternativas = []
 for i in range(90):
-    ponto_questao = devolve_posicao_ponto_para_questao(i, intersection, media)
+    ponto_questao = devolve_posicao_ponto_para_questao(
+        i, intersection, media, funcao_linha_cima
+    )
     alternativa, ponto_alternativa = devolve_alternativa_marcada(
         ponto_questao, imagem_pb, media
     )
     alternativas_marcadas.append(alternativa)
     pontos_alternativas.append(ponto_alternativa)
 
+# relatório e marcação dos pontos encontrados
 for i in range(90):
     print(f"Questão {i+1}: {alternativas_marcadas[i]}")
     cv2.circle(imagem_original, pontos_alternativas[i], 5, (255, 0, 0), 5)
 
 cv2.imshow("0", imagem_original[900:])
+cv2.waitKey(0)
+
+cv2.imshow("0", imagem_pb[900:])
 cv2.waitKey(0)
