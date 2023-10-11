@@ -195,7 +195,7 @@ def devolve_alternativa_marcada(
             cv2.circle(img_pb, (x, y), 4, (0, 0, 0))
 
     return (
-        ("não detectada", (-1, -1))
+        ("?", (-1, -1))
         if len(alternativa_encontrada) != 1
         else (alternativa_encontrada, ponto_encontrado)
     )

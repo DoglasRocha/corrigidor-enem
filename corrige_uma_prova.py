@@ -4,10 +4,9 @@ from imagem import *
 import os
 from funcoes import *
 
-# python corrigidor.py arquivo destino gabarito
-print(len(argv))
+# python corrigidor.py arquivo # gabarito
 assert (
-    len(argv) == 3
+    len(argv) == 2
 ), "Uso incorreto! Uso correto: python corrigidor.py imagem_de_entrada.jpeg diretorio_destino"
 assert os.path.isfile(argv[1]), "Imagem de entrada passada incorretamente"
 assert os.path.isdir(argv[2]), "Diretório de destino passado incorretamente"

@@ -1,0 +1,16 @@
+RELATÓRIO PROVA 42:
+	Questão 1: b	Questão 2: c	Questão 3: a	Questão 4: c	Questão 5: a	Questão 6: c
+	Questão 7: d	Questão 8: b	Questão 9: a	Questão 10: c	Questão 11: a	Questão 12: b
+	Questão 13: b	Questão 14: a	Questão 15: b	Questão 16: d	Questão 17: d	Questão 18: d
+	Questão 19: c	Questão 20: c	Questão 21: e	Questão 22: e	Questão 23: b	Questão 24: c
+	Questão 25: a	Questão 26: a	Questão 27: d	Questão 28: e	Questão 29: e	Questão 30: d
+	Questão 31: d	Questão 32: d	Questão 33: a	Questão 34: a	Questão 35: a	Questão 36: a
+	Questão 37: e	Questão 38: a	Questão 39: b	Questão 40: d	Questão 41: b	Questão 42: e
+	Questão 43: b	Questão 44: b	Questão 45: a	Questão 46: a	Questão 47: a	Questão 48: b
+	Questão 49: a	Questão 50: e	Questão 51: a	Questão 52: c	Questão 53: b	Questão 54: d
+	Questão 55: e	Questão 56: e	Questão 57: a	Questão 58: b	Questão 59: b	Questão 60: c
+	Questão 61: e	Questão 62: a	Questão 63: c	Questão 64: c	Questão 65: a	Questão 66: d
+	Questão 67: d	Questão 68: b	Questão 69: d	Questão 70: c	Questão 71: b	Questão 72: c
+	Questão 73: c	Questão 74: d	Questão 75: e	Questão 76: e	Questão 77: a	Questão 78: a
+	Questão 79: d	Questão 80: b	Questão 81: b	Questão 82: c	Questão 83: d	Questão 84: d
+	Questão 85: c	Questão 86: b	Questão 87: b	Questão 88: b	Questão 89: e	Questão 90: c
