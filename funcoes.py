@@ -1,4 +1,5 @@
 import cv2
+from imagem import deixa_imagem_preto_e_branco
 from typing import Callable
 
 
@@ -198,3 +199,66 @@ def devolve_alternativa_marcada(
         if len(alternativa_encontrada) != 1
         else (alternativa_encontrada, ponto_encontrado)
     )
+
+
+def determina_linhas_de_guia(
+    imagem_original: cv2.Mat, imagem_pb: cv2.Mat
+) -> tuple[Callable, Callable, Callable]:
+    funcao_linha_baixo = pega_funcao_linha_de_baixo(imagem_pb, offset=147)
+    funcao_linha_meio = pega_funcao_linha_meio(funcao_linha_baixo, imagem_pb)
+    funcao_linha_cima = pega_funcao_linha_cima(
+        funcao_linha_baixo, funcao_linha_meio, imagem_pb
+    )
+
+    # pega pontos iniciais e finais da linha de baixo - DEBUG
+    dim_imagem = imagem_pb.shape
+    pt1b = (0, funcao_linha_baixo(0))
+    pt2b = (dim_imagem[1] - 1, funcao_linha_baixo(dim_imagem[1] - 1))
+    # traça linha encima da linha de baixo - DEBUG
+    cv2.line(imagem_original, pt1b, pt2b, (0, 0, 255), 1)
+
+    # traça linha encima da linha do meio - DEBUG
+    pt1m = (int(funcao_linha_meio(0)), 0)
+    pt2m = (int(funcao_linha_meio(dim_imagem[0] - 1)), dim_imagem[0] - 1)
+    cv2.line(imagem_original, pt1m, pt2m, (0, 255, 0), 1)
+
+    # traça linha encima da linha de cima - DEBUG
+    pt1c = (0, funcao_linha_cima(0))
+    pt2c = (dim_imagem[1] - 1, funcao_linha_cima(dim_imagem[1] - 1))
+    cv2.line(imagem_original, pt1c, pt2c, (255, 0, 0), 1)
+
+    return funcao_linha_baixo, funcao_linha_meio, funcao_linha_cima
+
+
+def encontra_alternativas_marcadas_de_uma_prova(
+    imagem_original: cv2.Mat, imagem_pb: cv2.Mat
+) -> tuple[list, list]:
+    dim_imagem = imagem_original.shape
+    funcao_linha_baixo, funcao_linha_meio, funcao_linha_cima = determina_linhas_de_guia(
+        imagem_original, imagem_pb
+    )
+
+    # acha interseccao entre linha do meio e linha de cima
+    intersection = acha_interseccao_entre_linhas(
+        funcao_linha_cima, funcao_linha_meio, dim_imagem[1], dim_imagem[0]
+    )
+
+    # determina distancia media entre linhas gabarito
+    media = calcula_distancia_media_entre_linha_cima_e_baixo(
+        funcao_linha_baixo, funcao_linha_cima, dim_imagem[1]
+    )
+
+    # encontra ponto para questões e encontra a alternativa marcada
+    alternativas_marcadas = []
+    pontos_alternativas = []
+    for i in range(90):
+        ponto_questao = devolve_posicao_ponto_para_questao(
+            i, intersection, media, funcao_linha_cima
+        )
+        alternativa, ponto_alternativa = devolve_alternativa_marcada(
+            ponto_questao, imagem_pb, media
+        )
+        alternativas_marcadas.append(alternativa)
+        pontos_alternativas.append(ponto_alternativa)
+
+    return alternativas_marcadas, pontos_alternativas
