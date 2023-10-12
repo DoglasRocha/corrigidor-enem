@@ -123,8 +123,8 @@ def calcula_distancia_media_entre_linha_cima_e_baixo(
 def acha_interseccao_entre_linhas(
     funcao_linha_x: Callable, funcao_linha_y: Callable, tam_x_img: int, tam_y_img: int
 ) -> tuple[int, int]:
-    for x in range(0, tam_x_img - 1):
-        for y in range(0, tam_y_img - 1):
+    for x in range(tam_x_img // 3, (2 * tam_x_img) // 3):
+        for y in range(tam_y_img // 2, tam_y_img - 1):
             result = (x, funcao_linha_x(x))
             if result == (funcao_linha_y(y), y):
                 return result

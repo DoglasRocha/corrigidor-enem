@@ -7,9 +7,9 @@ from funcoes import *
 # python corrigidor.py arquivo # gabarito
 assert (
     len(argv) == 2
-), "Uso incorreto! Uso correto: python corrigidor.py imagem_de_entrada.jpeg diretorio_destino"
+), "Uso incorreto! Uso correto: python corrigidor.py imagem_de_entrada.jpeg"
 assert os.path.isfile(argv[1]), "Imagem de entrada passada incorretamente"
-assert os.path.isdir(argv[2]), "Diretório de destino passado incorretamente"
+# assert os.path.isdir(argv[2]), "Diretório de destino passado incorretamente"
 
 imagem_original = abre_imagem(argv[1])
 imagem_pb = deixa_imagem_preto_e_branco(imagem_original)

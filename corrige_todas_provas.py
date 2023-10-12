@@ -24,11 +24,19 @@ for n_path_imagem in range(len(path_imagens)):
         # relatório e marcação dos pontos encontrados
         with open(f"{argv[2]}/relatorio_prova_{n_path_imagem}.txt", "w") as arquivo:
             arquivo.write(f"RELATÓRIO PROVA {n_path_imagem}:\n")
-            for i in range(90):
-                arquivo.write(f"\tQuestão {i+1}: {alternativas_marcadas[i]}")
-                cv2.circle(imagem_original, pontos_alternativas[i], 5, (255, 0, 0), 5)
-                if (i + 1) % 6 == 0:
-                    arquivo.write("\n")
+            for i in range(90 // 6):
+                for j in range(6):
+                    arquivo.write(
+                        f"\tQuestão {i+1 + j * 15}: {alternativas_marcadas[i + j * 15]}"
+                    )
+                    cv2.circle(
+                        imagem_original,
+                        pontos_alternativas[i + j * 15],
+                        5,
+                        (255, 0, 0),
+                        5,
+                    )
+                arquivo.write("\n")
 
         salvar_imagem(imagem_original, f"{argv[2]}/prova_{n_path_imagem}.jpg")
         # salvar_imagem(imagem_pb, f"{argv[2]}/prova_{n_path_imagem}_pb.jpg")
