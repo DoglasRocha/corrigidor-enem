@@ -15,7 +15,7 @@ assert os.path.isdir(argv[2]), "Diretório de destino passado incorretamente"
 assert os.path.isdir(argv[3]), "Diretório de gabaritos passado incorretamente"
 
 imagem_original = abre_imagem(argv[1])
-# pdf = canvas.Canvas(f"{argv[2]}/relatorio_provas.pdf", pagesize=A4)
+pdf = canvas.Canvas(f"{argv[2]}/relatorio_prova_individual.pdf", pagesize=A4)
 
 imagem_pb = deixa_imagem_preto_e_branco(imagem_original)
 (
@@ -25,12 +25,11 @@ imagem_pb = deixa_imagem_preto_e_branco(imagem_original)
 
 gabaritos = abre_gabaritos(argv[3])
 correcao = corrige_prova(alternativas_marcadas, gabaritos)
-print(correcao)
 
 # relatório e marcação dos pontos encontrados
-"""gerar_relatorio_pdf(
-    imagem_original, 99, alternativas_marcadas, pontos_alternativas, pdf
-)"""
+gerar_relatorio_pdf(
+    imagem_original, 99, alternativas_marcadas, pontos_alternativas, pdf, correcao
+)
 # mostra_imagem(imagem_pb[900:])
 
-# pdf.save()
+pdf.save()
