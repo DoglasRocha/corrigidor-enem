@@ -1,1 +1,0 @@
-RELATÓRIO PROVA 36:Deu merda. Erro: index 7324 is out of bounds for axis 0 with size 1920

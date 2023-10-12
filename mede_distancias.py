@@ -1,7 +1,7 @@
 # programa criado para medir distancias entre as linhas dos gabaritos
 from sys import argv
 from imagem import *
-from funcoes import *
+from funcoes_deteccao_questoes import *
 import os
 
 # python corrigidor.py arquivo destino gabarito

@@ -1,8 +1,8 @@
-import cv2
 from sys import argv
 from imagem import *
 import os
-from funcoes import *
+from funcoes_deteccao_questoes import *
+from geracao_relatorio import *
 
 # python corrigidor.py diretorio_entrada diretorio_destino # gabarito
 assert (
@@ -22,25 +22,12 @@ for n_path_imagem in range(len(path_imagens)):
         ) = encontra_alternativas_marcadas_de_uma_prova(imagem_original, imagem_pb)
 
         # relatório e marcação dos pontos encontrados
-        with open(f"{argv[2]}/relatorio_prova_{n_path_imagem}.txt", "w") as arquivo:
-            arquivo.write(f"RELATÓRIO PROVA {n_path_imagem}:\n")
-            for i in range(90 // 6):
-                for j in range(6):
-                    arquivo.write(
-                        f"\tQuestão {i+1 + j * 15}: {alternativas_marcadas[i + j * 15]}"
-                    )
-                    cv2.circle(
-                        imagem_original,
-                        pontos_alternativas[i + j * 15],
-                        5,
-                        (255, 0, 0),
-                        5,
-                    )
-                arquivo.write("\n")
-
-        salvar_imagem(imagem_original, f"{argv[2]}/prova_{n_path_imagem}.jpg")
-        # salvar_imagem(imagem_pb, f"{argv[2]}/prova_{n_path_imagem}_pb.jpg")
+        gerar_relatorio(
+            imagem_original,
+            n_path_imagem,
+            alternativas_marcadas,
+            pontos_alternativas,
+            argv[2],
+        )
     except Exception as E:
-        with open(f"{argv[2]}/relatorio_prova_{n_path_imagem}.txt", "w") as arquivo:
-            arquivo.write(f"RELATÓRIO PROVA {n_path_imagem}:")
-            arquivo.write(f"Deu merda. Erro: {str(E)}")
+        gerar_relatorio_de_erro(n_path_imagem, argv[2], E)

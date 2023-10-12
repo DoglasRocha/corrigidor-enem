@@ -1,7 +1,7 @@
 # programa criado para encontrar parametro otimo de para achar a linha de baixo
 from sys import argv
 from imagem import *
-from funcoes import *
+from funcoes_deteccao_questoes import *
 import os
 
 # python corrigidor.py arquivo destino gabarito
