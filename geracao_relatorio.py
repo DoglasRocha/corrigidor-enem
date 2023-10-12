@@ -50,7 +50,7 @@ def gerar_relatorio_pdf(
     numero_prova: int,
     alternativas_marcadas: list,
     pontos_alternativas: list,
-    path_dir_saida: str,
+    pdf: canvas.Canvas,
 ) -> None:
     texto_relatorio, imagem_resultante = gerar_texto_e_imagem_relatorio(
         imagem_original,
@@ -62,10 +62,7 @@ def gerar_relatorio_pdf(
     # converte imagem cv2 para PIL
     img = Image.fromarray(imagem_resultante)
 
-    # cria pdf e desenha imagem
-    pdf = canvas.Canvas(
-        f"{path_dir_saida}/relatorio_prova_{numero_prova}.pdf", pagesize=A4
-    )
+    # desenha imagem
     pdf.drawInlineImage(img, 0, 0, *A4)
     pdf.showPage()
 
@@ -75,19 +72,19 @@ def gerar_relatorio_pdf(
     for linha in texto_relatorio.replace("\t", "    ").split("\n"):
         texto_objeto.textLine(linha)
     pdf.drawText(texto_objeto)
-    pdf.save()
+    pdf.showPage()
 
 
 def gerar_relatorio_pdf_de_erro(
-    imagem_original: Mat, numero_prova: int, path_dir_saida: str, E: Exception
+    imagem_original: Mat,
+    numero_prova: int,
+    E: Exception,
+    pdf: canvas.Canvas,
 ) -> None:
     # converte imagem cv2 para PIL
     img = Image.fromarray(imagem_original)
 
-    # cria pdf e desenha imagem
-    pdf = canvas.Canvas(
-        f"{path_dir_saida}/relatorio_prova_{numero_prova}.pdf", pagesize=A4
-    )
+    # desenha imagem no pdf
     pdf.drawInlineImage(img, 0, 0, *A4)
     pdf.showPage()
 
@@ -98,4 +95,4 @@ def gerar_relatorio_pdf_de_erro(
     for linha in texto_relatorio.replace("\t", "    ").split("\n"):
         texto_objeto.textLine(linha)
     pdf.drawText(texto_objeto)
-    pdf.save()
+    pdf.showPage()

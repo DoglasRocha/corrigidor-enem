@@ -12,6 +12,8 @@ assert os.path.isdir(argv[1]), "Diretório de entrada passado incorretamente"
 assert os.path.isdir(argv[2]), "Diretório de destino passado incorretamente"
 
 path_imagens = os.listdir(argv[1])
+pdf = canvas.Canvas(f"{argv[2]}/relatorio_provas.pdf", pagesize=A4)
+
 for n_path_imagem in range(len(path_imagens)):
     try:
         imagem_original = abre_imagem(f"{argv[1]}/{path_imagens[n_path_imagem]}")
@@ -27,7 +29,9 @@ for n_path_imagem in range(len(path_imagens)):
             n_path_imagem,
             alternativas_marcadas,
             pontos_alternativas,
-            argv[2],
+            pdf,
         )
     except Exception as E:
-        gerar_relatorio_pdf_de_erro(imagem_original, n_path_imagem, argv[2], E)
+        gerar_relatorio_pdf_de_erro(imagem_original, n_path_imagem, E, pdf)
+
+pdf.save()

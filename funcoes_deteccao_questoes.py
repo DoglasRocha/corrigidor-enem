@@ -1,5 +1,4 @@
 import cv2
-from imagem import deixa_imagem_preto_e_branco
 from typing import Callable
 
 
