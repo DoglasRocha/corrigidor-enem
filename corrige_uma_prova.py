@@ -20,7 +20,7 @@ imagem_pb = deixa_imagem_preto_e_branco(imagem_original)
 ) = encontra_alternativas_marcadas_de_uma_prova(imagem_original, imagem_pb)
 
 # relatório e marcação dos pontos encontrados
-gerar_relatorio(
+gerar_relatorio_pdf(
     imagem_original, 99, alternativas_marcadas, pontos_alternativas, argv[2]
 )
 # mostra_imagem(imagem_pb[900:])

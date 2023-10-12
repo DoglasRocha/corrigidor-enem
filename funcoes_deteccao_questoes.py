@@ -149,8 +149,8 @@ def devolve_posicao_ponto_para_questao(
     PROPORCAO_PRIMEIRA_LINHA = 0.14616755793226383
     PROPORCAO_ENTRE_ALTERNATIVAS_Y = 0.05614973262032086
 
-    pos_x_questao = (questao - 1) // 15
-    pos_y_questao = (questao - 1) % 15
+    pos_x_questao = questao // 15
+    pos_y_questao = questao % 15
 
     proporcao_x = PROPORCOES_X[pos_x_questao]
     x = interseccao_linhas[0] + media * proporcao_x

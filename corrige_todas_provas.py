@@ -22,7 +22,7 @@ for n_path_imagem in range(len(path_imagens)):
         ) = encontra_alternativas_marcadas_de_uma_prova(imagem_original, imagem_pb)
 
         # relatório e marcação dos pontos encontrados
-        gerar_relatorio(
+        gerar_relatorio_pdf(
             imagem_original,
             n_path_imagem,
             alternativas_marcadas,
@@ -30,4 +30,4 @@ for n_path_imagem in range(len(path_imagens)):
             argv[2],
         )
     except Exception as E:
-        gerar_relatorio_de_erro(n_path_imagem, argv[2], E)
+        gerar_relatorio_pdf_de_erro(imagem_original, n_path_imagem, argv[2], E)
