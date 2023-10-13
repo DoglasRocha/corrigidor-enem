@@ -124,8 +124,8 @@ def acha_interseccao_entre_linhas(
 ) -> tuple[int, int]:
     for x in range(tam_x_img // 3, (2 * tam_x_img) // 3):
         for y in range(tam_y_img // 2, tam_y_img - 1):
-            result = (x, funcao_linha_x(x))
-            if result == (funcao_linha_y(y), y):
+            result = (x, round(funcao_linha_x(x)))
+            if result == (round(funcao_linha_y(y)), y):
                 return result
 
     return (-1, -1)
@@ -241,6 +241,7 @@ def encontra_alternativas_marcadas_de_uma_prova(
     intersection = acha_interseccao_entre_linhas(
         funcao_linha_cima, funcao_linha_meio, dim_imagem[1], dim_imagem[0]
     )
+    cv2.circle(imagem_original, intersection, 5, (0, 255, 255), 5)
 
     # determina distancia media entre linhas gabarito
     media = calcula_distancia_media_entre_linha_cima_e_baixo(

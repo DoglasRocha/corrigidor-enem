@@ -1,8 +1,7 @@
-import cv2
+import os
 from sys import argv
 from imagem import *
-import os
-from funcoes_deteccao_questoes import *
+from funcoes_deteccao_questoes import encontra_alternativas_marcadas_de_uma_prova
 from geracao_relatorio import *
 from corretor import *
 
@@ -28,7 +27,12 @@ correcao = corrige_prova(alternativas_marcadas, gabaritos)
 
 # relatório e marcação dos pontos encontrados
 gerar_relatorio_pdf(
-    imagem_original, 99, alternativas_marcadas, pontos_alternativas, pdf, correcao
+    imagem_original,
+    99,
+    alternativas_marcadas,
+    pontos_alternativas,
+    pdf,
+    correcao,
 )
 # mostra_imagem(imagem_pb[900:])
 
