@@ -45,17 +45,27 @@ def gerar_imagem_relatorio(
 
 
 def gerar_relatorio_marcacoes(
-    numero_prova: int,
-    alternativas_marcadas: list,
+    numero_prova: int, alternativas_marcadas: list, correcao: list
 ) -> str:
     texto_relatorio = f"RELATÓRIO PROVA {numero_prova}:\n"
+    texto_relatorio += "\tCaso a questão seja de língua estrangeira, primero será apresentada a correção em espanhol e depois em inglês.\n\n"
     for i in range(15):
         for j in range(6):
             texto_relatorio += (
-                f"Questão {i+1 + j * 15:2d}: {alternativas_marcadas[i + j * 15]}\t"
+                f"Questão {i+1 + j * 15:2d}: ({alternativas_marcadas[i + j * 15]}) "
             )
-        texto_relatorio += "\n"
+            if len(correcao[i + j * 15]) == 1:
+                texto_relatorio += f'{correcao[i + j * 15][0]["Correção"]} '
+            else:
+                texto_relatorio += f'{correcao[i + j * 15][0]["Correção"]}/{correcao[i + j * 15][1]["Correção"]} '
 
+            texto_relatorio += "| "
+
+        texto_relatorio += "\t\n"
+
+    texto_relatorio += (
+        "\n\tLegenda: Questão XX: (alternativa marcada) C - Certo, E - Errado\n"
+    )
     """with open(f"{path_dir_saida}/relatorio_prova_{numero_prova}.txt", "w") as arquivo:
         arquivo.write(texto_relatorio)"""
 
@@ -64,11 +74,51 @@ def gerar_relatorio_marcacoes(
 
 def gerar_relatorio_correcao(correcao):
     materias = {
+        "Biologia": 0,
         "Espanhol": 0,
+        "Filosofia": 0,
+        "Física": 0,
+        "Geografia": 0,
+        "História": 0,
         "Inglês": 0,
         "Língua Portuguesa": 0,
-        "História": 0,
+        "Matemática": 0,
+        "Química": 0,
+        "Sociologia": 0,
     }
+
+    questoes_por_materia = {
+        "Biologia": 0,
+        "Espanhol": 0,
+        "Filosofia": 0,
+        "Física": 0,
+        "Geografia": 0,
+        "História": 0,
+        "Inglês": 0,
+        "Língua Portuguesa": 0,
+        "Matemática": 0,
+        "Química": 0,
+        "Sociologia": 0,
+    }
+
+    for linha in correcao:
+        for celula in linha:
+            if celula["Correção"] == "C":
+                materias[celula["Matéria"]] += 1
+            questoes_por_materia[celula["Matéria"]] += 1
+
+    texto = "\n\n\nRELATÓRIO QUANTITATIVO:\n\tAcertos por matéria:\n"
+    acertos_caso_espanhol = 0
+    acertos_caso_ingles = 0
+    for key, value in materias.items():
+        texto += f"\t\t{key}: {value}/{questoes_por_materia[key]}\n"
+        acertos_caso_espanhol += value if key != "Inglês" else 0
+        acertos_caso_ingles += value if key != "Espanhol" else 0
+
+    texto += "\n\nAcertos gerais:\n"
+    texto += f"\tCaso Espanhol: {acertos_caso_espanhol}/90\n\tCaso Inglês: {acertos_caso_ingles}/90\n\n"
+
+    return texto
 
 
 def gerar_relatorio_de_erro(numero_prova: int, erro: Exception) -> str:
@@ -89,11 +139,12 @@ def gerar_relatorio_pdf(
     pdf: canvas.Canvas,
     correcao: list,
 ) -> None:
-    relatorio_marcacoes = gerar_relatorio_marcacoes(numero_prova, alternativas_marcadas)
+    relatorio_marcacoes = gerar_relatorio_marcacoes(
+        numero_prova, alternativas_marcadas, correcao
+    )
+    relatorio_correcao = gerar_relatorio_correcao(correcao)
 
-    """relatorio_correcao = gerar_texto_correcao(
-        correcao,
-    )"""
+    texto_geral = relatorio_marcacoes + relatorio_correcao
     # gera img relatorio e converte para PIL
     imagem_resultante = gerar_imagem_relatorio(
         imagem_original, pontos_alternativas, correcao
@@ -105,9 +156,9 @@ def gerar_relatorio_pdf(
     pdf.showPage()
 
     # desenha texto
-    pdf.setFontSize(10)
+    pdf.setFontSize(9)
     texto_objeto = pdf.beginText(2 * cm, 27.7 * cm)
-    for linha in relatorio_marcacoes.replace("\t", "    ").split("\n"):
+    for linha in texto_geral.replace("\t", "    ").split("\n"):
         texto_objeto.textLine(linha)
     pdf.drawText(texto_objeto)
     pdf.showPage()
