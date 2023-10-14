@@ -24,6 +24,7 @@ imagem_pb = deixa_imagem_preto_e_branco(imagem_original)
 
 gabaritos = abre_gabaritos(argv[3])
 correcao = corrige_prova(alternativas_marcadas, gabaritos)
+acertos_por_materia, qtd_questoes_materia = avalia_acertos_por_materia(correcao)
 
 # relatório e marcação dos pontos encontrados
 gerar_relatorio_pdf(
@@ -33,6 +34,8 @@ gerar_relatorio_pdf(
     pontos_alternativas,
     pdf,
     correcao,
+    acertos_por_materia,
+    qtd_questoes_materia,
 )
 # mostra_imagem(imagem_pb[900:])
 
