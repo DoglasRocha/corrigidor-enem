@@ -182,11 +182,19 @@ def devolve_alternativa_marcada(
     for i in range(len(alternativas)):
         x = round(ponto_alternativa_a[0] + media * PROPORCAO_ENTRE_ALTERNATIVAS_X * i)
         y = ponto_alternativa_a[1]
-        if img_pb[y][x] == 0 and (
+        if (
+            img_pb[y][x] == 0
+            and (
+                img_pb[y + 5][x] == 0
+                or img_pb[y - 5][x] == 0
+                or img_pb[y][x + 5] == 0
+                or img_pb[y][x - 5] == 0
+            )
+        ) or (
             img_pb[y + 5][x] == 0
-            or img_pb[y - 5][x] == 0
-            or img_pb[y][x + 5] == 0
-            or img_pb[y][x - 5] == 0
+            and img_pb[y - 5][x] == 0
+            and img_pb[y][x + 5] == 0
+            and img_pb[y][x - 5] == 0
         ):
             alternativa_encontrada += alternativas[i]
             ponto_encontrado = (x, y)
